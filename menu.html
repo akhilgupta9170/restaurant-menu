@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Restaurant Menu</h1>
+    <div id="menuContainer">
+        <h2 id="restaurantName"></h2>
+        <ul id="menuList"></ul>
+    </div>
+    
+    <script>
+        const restaurantArrays = [
+            { name: "Taco Town", foodType: "Mexican", customerRating: 4.5, id: 1 },
+            { name: "Sushi Palace", foodType: "Japanese", customerRating: 4.2, id: 2 },
+            { name: "Pizza Hut", foodType: "Italian", customerRating: 4.8, id: 3 },
+            { name: "Chicken Ranch", foodType: "American", customerRating: 4.7, id: 4 },
+            { name: "Burger King", foodType: "American", customerRating: 4.6, id: 5 },
+            { name: "Cafe Rio", foodType: "Spanish", customerRating: 4.9, id: 6 }
+        ];
+
+        const menuArraysOfRestaurants = [
+            { restaurantId: 1, menuItems: ["Chicken Wings", "Grilled Salmon", "Fried Chicken", "Tacos", "Burger", "Pizza"] },
+            { restaurantId: 2, menuItems: ["Sushi Roll", "Nigiri", "Tempura", "Sashimi", "Egg Roll", "Takoyaki"] },
+            { restaurantId: 3, menuItems: ["Pizza Margherita", "Pizza Pepperoni", "Pizza Capricciosa", "Pizza Carbonara", "Pizza Mushroom", "Pizza Mozzarella"] },
+            { restaurantId: 4, menuItems: ["Steak and Cheese", "Ribeye Steak", "Chicken Alfredo", "Beef Stroganoff", "Fried Chicken", "Baked Salmon"] },
+            { restaurantId: 5, menuItems: ["Cheeseburger", "Bacon Burger", "Double Cheeseburger", "Mushroom Burger", "Hamburger", "Poutine"] },
+            { restaurantId: 6, menuItems: ["Ramen", "Tempeh", "Pad Thai", "Bowl of Vegetables", "Pad See Ew", "Pad Kway Teow"] }
+        ];
+
+        function getRestaurantId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return parseInt(urlParams.get('id'));
+        }
+
+        function displayMenu(restaurantId) {
+            const restaurant = restaurantArrays.find(r => r.id === restaurantId);
+            const menu = menuArraysOfRestaurants.find(m => m.restaurantId === restaurantId);
+
+            if (restaurant && menu) {
+             const restaurantName =   document.getElementById('restaurantName');
+             restaurantName.textContent = restaurant.name;
+             
+
+                const menuList = document.getElementById('menuList');
+                menuList.innerHTML = '';
+
+                menu.menuItems.forEach(item => {
+                    const menuItem = document.createElement('li');
+                    menuItem.textContent = item;
+                    menuList.appendChild(menuItem);
+                });
+            } else {
+                document.getElementById('restaurantName').textContent = 'Restaurant not found';
+            }
+        }
+
+        const restaurantId = getRestaurantId();
+        displayMenu(restaurantId);
+    </script>
+</body>
+</html>
